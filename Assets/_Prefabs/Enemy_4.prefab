@@ -353,6 +353,33 @@ MonoBehaviour:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   BoundsCenterOffset: {x: 0, y: 0, z: 0}
+  Points: []
+  TimeStart: 0
+  Duration: 4
+  Parts:
+  - Name: Cockpit
+    Health: 10
+    ProtectedBy:
+    - Fuselage
+    go: {fileID: 0}
+    mat: {fileID: 0}
+  - Name: Fuselage
+    Health: 10
+    ProtectedBy:
+    - Wing_L
+    - Wing_R
+    go: {fileID: 0}
+    mat: {fileID: 0}
+  - Name: Wing_L
+    Health: 10
+    ProtectedBy: []
+    go: {fileID: 0}
+    mat: {fileID: 0}
+  - Name: Wing_R
+    Health: 10
+    ProtectedBy: []
+    go: {fileID: 0}
+    mat: {fileID: 0}
 --- !u!135 &135000011353180438
 SphereCollider:
   m_ObjectHideFlags: 1
