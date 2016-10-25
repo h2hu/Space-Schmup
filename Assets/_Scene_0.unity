@@ -102,7 +102,7 @@ GameObject:
   - 23: {fileID: 553622635}
   - 135: {fileID: 553622634}
   - 114: {fileID: 553622637}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1968218159}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!135 &553622634
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -129,7 +129,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 553622632}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -195,7 +195,7 @@ GameObject:
   - 33: {fileID: 1104604648}
   - 65: {fileID: 1104604647}
   - 23: {fileID: 1104604646}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -366,7 +366,39 @@ MonoBehaviour:
   - {fileID: 1000013476214032, guid: 4e7efd0f73c004eab866c2daaf96440a, type: 2}
   EnemiesSpawnPerSecond: 0.5
   EnemySpawnPadding: 1.5
+  WeaponDefinitions:
+  - Type: 1
+    Letter: B
+    Color: {r: 1, g: 1, b: 1, a: 1}
+    ProjectilePrefab: {fileID: 1000012810486480, guid: 1e52524fc19ce418fa7ab54e925edcb2,
+      type: 2}
+    ProjectileColor: {r: 1, g: 1, b: 1, a: 1}
+    DamageOnHit: 1
+    ContinuousDamage: 0
+    DelayBetweenShots: 0.2
+    Velocity: 50
+  - Type: 2
+    Letter: S
+    Color: {r: 0, g: 1, b: 1, a: 1}
+    ProjectilePrefab: {fileID: 1000012810486480, guid: 1e52524fc19ce418fa7ab54e925edcb2,
+      type: 2}
+    ProjectileColor: {r: 0, g: 1, b: 1, a: 1}
+    DamageOnHit: 1
+    ContinuousDamage: 0
+    DelayBetweenShots: 0.4
+    Velocity: 50
+  - Type: 6
+    Letter: O
+    Color: {r: 0, g: 0.71, b: 0, a: 1}
+    ProjectilePrefab: {fileID: 1000012810486480, guid: 1e52524fc19ce418fa7ab54e925edcb2,
+      type: 2}
+    ProjectileColor: {r: 1, g: 1, b: 1, a: 1}
+    DamageOnHit: 0
+    ContinuousDamage: 0
+    DelayBetweenShots: 0
+    Velocity: 0
   ____________________: 0
+  ActiveWeaponTypes: 
   EnemySpawnRate: 0
 --- !u!1 &1137864626
 GameObject:
@@ -439,7 +471,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1477290050}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cockpit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -459,7 +491,7 @@ Transform:
   m_Children:
   - {fileID: 1104604645}
   m_Father: {fileID: 1968218159}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &1686140708
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +503,7 @@ GameObject:
   - 33: {fileID: 1686140712}
   - 65: {fileID: 1686140711}
   - 23: {fileID: 1686140710}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +522,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_Children: []
   m_Father: {fileID: 1968218159}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!23 &1686140710
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -549,9 +581,9 @@ GameObject:
   - 4: {fileID: 1968218159}
   - 114: {fileID: 1968218158}
   - 54: {fileID: 1968218157}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: _Hero
-  m_TagString: Untagged
+  m_TagString: Hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -582,14 +614,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68126e6f5ebfb6546b308f89abcc9028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameRestartDelay: 2
   Speed: 30
   RollMult: -45
   PitchMult: 30
-  ShieldLevel: 1
+  _shieldLevel: 1
+  BoundsTestOption: 0
   _____________________: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
+  LastTriggerGo: {fileID: 0}
 --- !u!4 &1968218159
 Transform:
   m_ObjectHideFlags: 0
@@ -597,12 +632,60 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1968218156}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -27.5, y: -33.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 2025966655}
   - {fileID: 553622633}
   - {fileID: 1686140709}
   - {fileID: 1477290050}
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!1001 &2025966654
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1968218159}
+    m_Modifications:
+    - target: {fileID: 4000010593537828, guid: 91662526b076b450cb0030078cd13795, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010593537828, guid: 91662526b076b450cb0030078cd13795, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010593537828, guid: 91662526b076b450cb0030078cd13795, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010593537828, guid: 91662526b076b450cb0030078cd13795, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010593537828, guid: 91662526b076b450cb0030078cd13795, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010593537828, guid: 91662526b076b450cb0030078cd13795, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010593537828, guid: 91662526b076b450cb0030078cd13795, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010593537828, guid: 91662526b076b450cb0030078cd13795, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 91662526b076b450cb0030078cd13795, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &2025966655 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4000010593537828, guid: 91662526b076b450cb0030078cd13795,
+    type: 2}
+  m_PrefabInternal: {fileID: 2025966654}

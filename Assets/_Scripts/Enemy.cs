@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
 	{
 		InvokeRepeating("CheckOffscreen", 0f, 2f);
 	}
+
 	void Update()
 	{
 		Move();
@@ -53,6 +54,29 @@ public class Enemy : MonoBehaviour
 			{
 				Destroy(gameObject);
 			}
+		}
+	}
+
+	void OnCollisionEnter(Collision collision)
+	{
+		GameObject other = collision.gameObject;
+		switch (other.tag)
+		{
+			case "ProjectileHero":
+				Projectile p = other.GetComponent<Projectile>();
+				Bounds.center = transform.position + BoundsCenterOffset;
+				if ((Bounds.extents == Vector3.zero) || Utils.ScreenBoundsCheck(Bounds, BoundsTest.OffScreen) != Vector3.zero)
+				{
+					Destroy(other);
+					break;
+				}
+				Health -= Main.W_DEFS[p.Type].DamageOnHit;
+				if (Health <= 0)
+				{
+					Destroy(gameObject);
+				}
+				Destroy(other);
+				break;
 		}
 	}
 }
