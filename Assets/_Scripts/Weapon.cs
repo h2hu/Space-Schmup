@@ -40,10 +40,15 @@ public class Weapon : MonoBehaviour
 	public float LastShot;
 
 
+	void Awake()
+	{
+		Collar = transform.Find("Collar").gameObject;
+	}
+
 	// Use this for initialization
 	void Start()
 	{
-		Collar = transform.Find("Collar").gameObject;
+
 		SetType(_type);
 		if (PROJECTILE_ANCHOR == null)
 		{

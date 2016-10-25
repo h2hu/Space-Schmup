@@ -10,7 +10,15 @@ public class Enemy : MonoBehaviour
 	public float Health = 10;
 	public int Score = 100;
 
+	public int ShowDamageForFrames = 2;
+	public float PowerUpDropChance = 1;
+
 	public bool _____________________;
+
+	public Color[] OriginalColors;
+	public Material[] Materials;
+	public int RemainingDamageFrames;
+
 	public Bounds Bounds;
 	public Vector3 BoundsCenterOffset;
 
@@ -23,12 +31,26 @@ public class Enemy : MonoBehaviour
 
 	void Awake()
 	{
+		Materials = Utils.GetAllMaterials(gameObject);
+		OriginalColors = new Color[Materials.Length];
+		for (int i = 0; i < Materials.Length; i++)
+		{
+			OriginalColors[i] = Materials[i].color;
+		}
 		InvokeRepeating("CheckOffscreen", 0f, 2f);
 	}
 
 	void Update()
 	{
 		Move();
+		if (RemainingDamageFrames > 0)
+		{
+			RemainingDamageFrames--;
+			if (RemainingDamageFrames == 0)
+			{
+				UnShowDamage();
+			}
+		}
 	}
 
 	public virtual void Move()
@@ -70,13 +92,32 @@ public class Enemy : MonoBehaviour
 					Destroy(other);
 					break;
 				}
+				ShowDamage();
 				Health -= Main.W_DEFS[p.Type].DamageOnHit;
 				if (Health <= 0)
 				{
+					Main.S.ShipDestroyed(this);
 					Destroy(gameObject);
 				}
 				Destroy(other);
 				break;
+		}
+	}
+
+	void ShowDamage()
+	{
+		foreach (var material in Materials)
+		{
+			material.color = Color.red;
+		}
+		RemainingDamageFrames = ShowDamageForFrames;
+	}
+
+	void UnShowDamage()
+	{
+		for (int i = 0; i < Materials.Length; i++)
+		{
+			Materials[i].color = OriginalColors[i];
 		}
 	}
 }

@@ -11,6 +11,7 @@ public enum BoundsTest
 
 public class Utils : MonoBehaviour
 {
+	// =================================== Bounds Functions =====================================
 	public static Bounds BoundsUnion(Bounds b0, Bounds b1)
 	{
 		if (b0.size == Vector3.zero)
@@ -157,6 +158,8 @@ public class Utils : MonoBehaviour
 		}
 	}
 
+	// =================================== Transform Functions =====================================
+
 	public static GameObject FindTaggedParent(GameObject go)
 	{
 		if (go.tag != "Untagged")
@@ -175,4 +178,20 @@ public class Utils : MonoBehaviour
 		return FindTaggedParent(t.gameObject);
 	}
 
+
+	// =================================== Materials Functions =====================================
+
+	public static Material[] GetAllMaterials(GameObject go)
+	{
+		List<Material> mats = new List<Material>();
+		if (go.GetComponent<Renderer>() != null)
+		{
+			mats.Add(go.GetComponent<Renderer>().material);
+		}
+		foreach (Transform transform in go.transform)
+		{
+			mats.AddRange(GetAllMaterials(transform.gameObject));
+		}
+		return mats.ToArray();
+	}
 }
